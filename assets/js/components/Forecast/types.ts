@@ -2,16 +2,22 @@ export function isForecastSlot(obj?: TimeseriesEntry | ForecastSlot): obj is For
   return (obj as ForecastSlot).start !== undefined;
 }
 
+// timestamps are unix milliseconds, expanded from the wire format by
+// expandForecast in utils/forecast
 export interface TimeseriesEntry {
   val: number;
-  ts: string;
+  ts: number;
 }
 
 export interface ForecastSlot {
-  start: string;
-  end: string;
+  start: number;
+  end: number;
   value: number;
 }
+
+// wire format: [start, end, value] and [ts, val], timestamps in unix seconds
+export type WireForecastSlot = [number, number, number];
+export type WireTimeseriesEntry = [number, number];
 
 export interface EnergyByDay {
   energy: number;
